@@ -6,8 +6,8 @@ edition = "2018"
 build = "build.rs"
 
 [dependencies]
-gbm = { path = "../../gbm.rs", default-features = false, features = ["drm-support", "import-egl", "gen"] }
-drm = { path = "../../drm-rs" }
+gbm = { git = "https://github.com/kosyak/gbm.rs", default-features = false, features = ["drm-support", "import-egl", "gen"] }
+drm = { git = "https://github.com/kosyak/drm-rs", branch = "master" }
 
 [build-dependencies]
 gl_generator = "*"

@@ -27,6 +27,4 @@ fn main() {
 
     println!("cargo:rustc-link-search=/usr/local/lib/aarch64-linux-gnu/mali");
     println!("cargo:rustc-link-lib=Mali");
-    // println!("cargo:rustc-link-lib=GLESv2");
-    // println!("cargo:rustc-link-lib=EGL");
 }

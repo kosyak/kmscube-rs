@@ -1,5 +1,4 @@
 extern crate drm;
-extern crate drm_sys;
 extern crate gbm;
 extern crate sys;
 
@@ -17,24 +16,8 @@ use drm::control::crtc::{Events, Event};
 use std::ffi::CStr;
 use std::os::unix::io::AsRawFd;
 
-#[macro_export]
-macro_rules! dbg {
-    () => (eprint!([{}:{}], file!(), line!()));
-    ($l:literal) => (dbg!("{}", $l));
-    ($expr:expr) => (dbg!(concat!(stringify!($expr), " = {:#?}"), $expr));
-    ($fmt:expr, $expr:expr$(, $opt:expr)*) => {
-        match $expr {
-            expr => {
-                eprint!("[{}:{}] ", file!(), line!());
-                eprint!(concat!($fmt, "\n"), &expr$(, $opt)*);
-                expr
-            }
-        }
-    }
-}
-
 fn main() {
-    let card = init_drm();
+    let card = Card::open_global();
     let gbm = Device::new(card).unwrap();
 
     run(&gbm);
@@ -71,8 +54,6 @@ fn run(gbm: &Device<Card>) {
     let aspect = mode.size().1 as f32 / mode.size().0 as f32;
 
     loop {
-        let now = Instant::now();
-
         cube_smooth::draw(i, aspect, gl_modelviewmatrix, gl_modelviewprojectionmatrix, gl_normalmatrix);
         i += 1;
 
@@ -107,30 +88,7 @@ fn run(gbm: &Device<Card>) {
         }
 
         bo = next_bo;
-
-        let elapsed = now.elapsed();
-        let _sec = (elapsed.as_secs() as f64) + (elapsed.subsec_nanos() as f64 / 1000_000_000.0);
-        // dbg!(sec);
     }
-}
-
-fn init_drm() -> Card {
-    let card = Card::open_global();
-
-    let drm_version = unsafe { *drm_sys::drmGetVersion(card.as_raw_fd()) };
-    dbg!(drm_version.version_major);
-    dbg!(drm_version.version_minor);
-    dbg!(drm_version.version_patchlevel);
-    unsafe { dbg!(CStr::from_ptr(drm_version.name).to_string_lossy().into_owned()) };
-    unsafe { dbg!(CStr::from_ptr(drm_version.date).to_string_lossy().into_owned()) };
-    unsafe { dbg!(CStr::from_ptr(drm_version.desc).to_string_lossy().into_owned()) };
-
-    let drm_lib_version = unsafe { *drm_sys::drmGetLibVersion(0) };
-    dbg!(drm_lib_version.version_major);
-    dbg!(drm_lib_version.version_minor);
-    dbg!(drm_lib_version.version_patchlevel);
-
-    card
 }
 
 fn get_resources(card: &Card) -> (ConnectorInfo, Mode, EncoderInfo, CrtcInfo) {
@@ -160,7 +118,7 @@ fn get_resources(card: &Card) -> (ConnectorInfo, Mode, EncoderInfo, CrtcInfo) {
 
     let mode = modes.iter().next().unwrap();
 
-    dbg!("size {:?}, clock {:?}, hsync {:?}, vsync {:?}, hskew {:?}, vscan {:?}, vrefresh {:?}, pref {}, {}",
+    println!("size {:?}, clock {:?}, hsync {:?}, vsync {:?}, hskew {:?}, vscan {:?}, vrefresh {:?}, pref {}, {}",
         mode.size(), mode.clock(), mode.hsync(), mode.vsync(), mode.hskew(),
         mode.vscan(), mode.vrefresh(), mode.is_preferred(), mode.name().to_string_lossy().into_owned());
 
