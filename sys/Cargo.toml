@@ -1,0 +1,13 @@
+[package]
+name = "sys"
+version = "0.1.0"
+authors = ["kosyak <vadim@kosov.eu>"]
+edition = "2018"
+build = "build.rs"
+
+[dependencies]
+gbm = { path = "../../gbm.rs", default-features = false, features = ["drm-support", "import-egl", "gen"] }
+drm = { path = "../../drm-rs" }
+
+[build-dependencies]
+gl_generator = "*"

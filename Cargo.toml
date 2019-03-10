@@ -1,0 +1,11 @@
+[package]
+name = "drmgbm-rs-test"
+version = "0.1.0"
+authors = ["kosyak <vadim@kosov.eu>"]
+edition = "2018"
+
+[dependencies]
+gbm = { path = "../gbm.rs", default-features = false, features = ["drm-support", "import-egl", "gen"] }
+drm = { path = "../drm-rs" }
+drm-sys = { path = "../drm-rs/drm-sys", features = ["use_bindgen"] }
+sys = { path = "sys" }
