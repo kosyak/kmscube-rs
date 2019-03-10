@@ -1,8 +1,7 @@
 extern crate drm;
 extern crate gbm;
 
-use drm::control::{crtc, framebuffer, Device as ControlDevice};
-use gbm::{Device, Format, BufferObjectFlags};
+use drm::control::Device as ControlDevice;
 
 use std::fs::{File, OpenOptions};
 use std::os::unix::io::{AsRawFd, RawFd};

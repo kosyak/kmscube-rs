@@ -13,9 +13,6 @@ use drm::control::{crtc, framebuffer, Device as ControlDevice, connector::Info a
 use gbm::{Device, Format, BufferObjectFlags};
 use drm::control::crtc::{Events, Event};
 
-use std::ffi::CStr;
-use std::os::unix::io::AsRawFd;
-
 fn main() {
     let card = Card::open_global();
     let gbm = Device::new(card).unwrap();
@@ -49,7 +46,6 @@ fn run(gbm: &Device<Card>) {
     let fb_info = framebuffer::create(gbm, &*bo).unwrap();
 
     let _ = crtc::set(gbm, crtc.handle(), fb_info.handle(), &[connector.handle()], (0, 0), Some(mode)).unwrap();
-    use std::time::Instant;
 
     let aspect = mode.size().1 as f32 / mode.size().0 as f32;
 
