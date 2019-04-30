@@ -161,11 +161,11 @@ pub fn init(
 
     unsafe { gl::LinkProgram(gl_program) };
 
-    assert!(unsafe {
+    assert_ne!(unsafe {
         let mut ret = 0;
         gl::GetProgramiv(gl_program, gl::LINK_STATUS, &mut ret);
         ret
-    } != 0);
+    }, 0);
     // if ret == 0 {
     //     char *log;
 

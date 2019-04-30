@@ -32,8 +32,9 @@ fn run(gbm: &Device<Card>) {
         BufferObjectFlags::SCANOUT | BufferObjectFlags::RENDERING
     ).unwrap();
 
-    let (egl_display, egl_surface, gl_modelviewmatrix, gl_modelviewprojectionmatrix, gl_normalmatrix) =
-        cube_smooth::init(&gbm, &mode, 0, &gbm_surface, pixel_format);
+    let (egl_display, egl_surface, gl_modelviewmatrix,
+        gl_modelviewprojectionmatrix, gl_normalmatrix
+    ) = cube_smooth::init(&gbm, &mode, 0, &gbm_surface, pixel_format);
 
     unsafe { sys::gles2::ClearColor(0., 0.5, 0.5, 1.0) };
     unsafe { sys::gles2::Clear(sys::gles2::COLOR_BUFFER_BIT) };
@@ -45,7 +46,14 @@ fn run(gbm: &Device<Card>) {
     let mut bo = unsafe { gbm_surface.lock_front_buffer() }.unwrap();
     let fb_info = framebuffer::create(gbm, &*bo).unwrap();
 
-    let _ = crtc::set(gbm, crtc.handle(), fb_info.handle(), &[connector.handle()], (0, 0), Some(mode)).unwrap();
+    let _ = crtc::set(
+        gbm,
+        crtc.handle(),
+        fb_info.handle(),
+        &[connector.handle()],
+        (0, 0),
+        Some(mode)
+    ).unwrap();
 
     let aspect = mode.size().1 as f32 / mode.size().0 as f32;
 
@@ -118,7 +126,8 @@ fn get_resources(card: &Card) -> (ConnectorInfo, Mode, EncoderInfo, CrtcInfo) {
         mode.size(), mode.clock(), mode.hsync(), mode.vsync(), mode.hskew(),
         mode.vscan(), mode.vrefresh(), mode.is_preferred(), mode.name().to_string_lossy().into_owned());
 
-    let encoder = EncoderInfo::load_from_device(card, connector.current_encoder().unwrap()).unwrap();
+    let encoder =
+        EncoderInfo::load_from_device(card, connector.current_encoder().unwrap()).unwrap();
 
     let ctrc_handle = encoder.current_crtc().unwrap();
     let crtc = CrtcInfo::load_from_device(card, ctrc_handle).unwrap();

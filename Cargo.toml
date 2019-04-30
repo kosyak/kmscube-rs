@@ -5,6 +5,6 @@ authors = ["kosyak <vadim@kosov.eu>"]
 edition = "2018"
 
 [dependencies]
-gbm = { git = "https://github.com/kosyak/gbm.rs", default-features = false, features = ["drm-support", "import-egl", "gen"] }
-drm = { git = "https://github.com/kosyak/drm-rs", branch = "master" }
+gbm = { git = "https://github.com/kosyak/gbm.rs.git", default-features = false, features = ["drm-support", "import-egl", "gen"] }
+drm = { git = "https://github.com/kosyak/drm-rs.git", branch = "master" }
 sys = { path = "sys" }
