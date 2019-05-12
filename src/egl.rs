@@ -82,7 +82,8 @@ pub fn init(
     } } else { None };
 
     let display = if ext_platform_base_address.is_some() {
-        unsafe { egl::GetPlatformDisplayEXT(egl::PLATFORM_GBM_KHR, gbm.as_raw_mut() as *mut _, std::ptr::null()) }
+        // unsafe { egl::GetPlatformDisplayEXT(egl::PLATFORM_GBM_KHR, gbm.as_raw_mut() as *mut _, std::ptr::null()) }
+        unsafe { egl::GetDisplay(gbm.as_raw_mut() as *const _) }
     } else {
         unsafe { egl::GetDisplay(gbm.as_raw_mut() as *const _) }
     };

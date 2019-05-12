@@ -6,6 +6,17 @@ use drm::control::Device as ControlDevice;
 use std::fs::{File, OpenOptions};
 use std::os::unix::io::{AsRawFd, RawFd};
 
+use std::os::raw::{c_void, c_char, c_int};
+
+#[link(name = "GLESv2")]
+#[link(name = "EGL")]
+
+#[link(name = "dl")]
+extern {
+    pub fn dlopen(filename: *const c_char, flag: c_int) -> *mut c_void;
+    pub fn dlsym(handle: *mut c_void, symbol: *const c_char) -> *mut c_void;
+}
+
 #[allow(non_camel_case_types)]
 pub mod egl {
     #![cfg_attr(feature = "cargo-clippy", allow(unreadable_literal))]

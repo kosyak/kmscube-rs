@@ -24,6 +24,4 @@ fn main() {
     ])
         .write_bindings(StaticGenerator, &mut gles2_file)
         .unwrap();
-
-    println!("cargo:rustc-link-search=/usr/local/lib/aarch64-linux-gnu/mali");
 }
