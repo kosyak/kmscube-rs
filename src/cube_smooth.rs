@@ -155,9 +155,18 @@ pub fn init(
     assert!(gl_program >= 0);
     let gl_program = gl_program as u32;
 
-    unsafe{ gl::BindAttribLocation(gl_program, 0, CString::new("in_position").unwrap().as_ptr()) };
-    unsafe{ gl::BindAttribLocation(gl_program, 1, CString::new("in_normal").unwrap().as_ptr()) };
-    unsafe{ gl::BindAttribLocation(gl_program, 2, CString::new("in_color").unwrap().as_ptr()) };
+    unsafe{
+        let s = CString::new("in_position").unwrap();
+        gl::BindAttribLocation(gl_program, 0, s.as_ptr())
+    };
+    unsafe{
+        let s = CString::new("in_normal").unwrap();
+        gl::BindAttribLocation(gl_program, 1, s.as_ptr())
+    };
+    unsafe{
+        let s = CString::new("in_color").unwrap();
+        gl::BindAttribLocation(gl_program, 2, s.as_ptr())
+    };
 
     unsafe { gl::LinkProgram(gl_program) };
 
@@ -185,13 +194,16 @@ pub fn init(
     unsafe { gl::UseProgram(gl_program) };
 
     let gl_modelviewmatrix = unsafe {
-        gl::GetUniformLocation(gl_program, CString::new("modelviewMatrix").unwrap().as_ptr())
+        let s = CString::new("modelviewMatrix").unwrap();
+        gl::GetUniformLocation(gl_program, s.as_ptr())
     };
     let gl_modelviewprojectionmatrix = unsafe {
-        gl::GetUniformLocation(gl_program, CString::new("modelviewprojectionMatrix").unwrap().as_ptr())
+        let s = CString::new("modelviewprojectionMatrix").unwrap();
+        gl::GetUniformLocation(gl_program, s.as_ptr())
     };
     let gl_normalmatrix = unsafe {
-        gl::GetUniformLocation(gl_program, CString::new("normalMatrix").unwrap().as_ptr())
+        let s = CString::new("normalMatrix").unwrap();
+        gl::GetUniformLocation(gl_program, s.as_ptr())
     };
 
     unsafe { gl::Viewport(0, 0, mode.size().0 as i32, mode.size().1 as i32) };

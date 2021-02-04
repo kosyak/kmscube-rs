@@ -20,7 +20,10 @@ pub fn create_program(vs_src: &str, fs_src: &str) -> i32 {
 
     let vertex_shader = unsafe { gles2::CreateShader(gles2::VERTEX_SHADER) };
 
-    unsafe { gles2::ShaderSource(vertex_shader, 1, &CString::new(vs_src.as_bytes()).unwrap().as_ptr(), std::ptr::null()) };
+    unsafe {
+        let s = CString::new(vs_src.as_bytes()).unwrap();
+        gles2::ShaderSource(vertex_shader, 1, &s.as_ptr(), std::ptr::null())
+    };
     unsafe { gles2::CompileShader(vertex_shader) };
 
     unsafe { gles2::GetShaderiv(vertex_shader, gles2::COMPILE_STATUS, &mut ret) };
@@ -38,7 +41,10 @@ pub fn create_program(vs_src: &str, fs_src: &str) -> i32 {
 
     let fragment_shader = unsafe { gles2::CreateShader(gles2::FRAGMENT_SHADER) };
 
-    unsafe { gles2::ShaderSource(fragment_shader, 1, &CString::new(fs_src.as_bytes()).unwrap().as_ptr(), std::ptr::null()) };
+    unsafe {
+        let s = CString::new(fs_src.as_bytes()).unwrap();
+        gles2::ShaderSource(fragment_shader, 1, &s.as_ptr(), std::ptr::null())
+    };
     unsafe { gles2::CompileShader(fragment_shader) };
 
     unsafe { gles2::GetShaderiv(fragment_shader, gles2::COMPILE_STATUS, &mut ret) };
@@ -78,7 +84,8 @@ pub fn init(
 
     let egl_exts_client = query_string(egl::NO_DISPLAY, egl::EXTENSIONS);
     let ext_platform_base_address = if egl_exts_client.contains("EGL_EXT_platform_base") { unsafe {
-        Some(egl::GetProcAddress(CString::new("eglGetPlatformDisplayEXT").unwrap().as_ptr()))
+        let s = CString::new("eglGetPlatformDisplayEXT").unwrap();
+        Some(egl::GetProcAddress(s.as_ptr()))
     } } else { None };
 
     let display = if ext_platform_base_address.is_some() {
