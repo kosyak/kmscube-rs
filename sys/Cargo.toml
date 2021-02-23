@@ -6,7 +6,7 @@ edition = "2018"
 build = "build.rs"
 
 [dependencies]
-gbm = { git = "https://github.com/kosyak/gbm.rs", default-features = false, features = ["drm-support", "import-egl", "gen"] }
+gbm = { git = "https://github.com/kosyak/gbm.rs", branch = "master", features = ["drm-support", "import-egl", "gen"] }
 drm = { git = "https://github.com/kosyak/drm-rs", branch = "master" }
 
 [build-dependencies]
