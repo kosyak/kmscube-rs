@@ -164,7 +164,7 @@ checksum = "ff511d5dc435d703f4971bc399647c9bc38e20cb41452e3b9feb4765419ed3f3"
 [[package]]
 name = "gbm"
 version = "0.5.0"
-source = "git+https://github.com/kosyak/gbm.rs.git?branch=master#af19322507b47625a6e3c8cd447af58c2e800842"
+source = "git+https://github.com/kosyak/gbm.rs.git?branch=master#456cb2b77b9f00c7efd0fe31abb0a2de2415f3cb"
 dependencies = [
  "bitflags 1.2.1",
  "drm",
@@ -175,9 +175,8 @@ dependencies = [
 [[package]]
 name = "gbm-sys"
 version = "0.1.0"
-source = "git+https://github.com/kosyak/gbm.rs.git?branch=master#af19322507b47625a6e3c8cd447af58c2e800842"
+source = "git+https://github.com/kosyak/gbm.rs.git?branch=master#456cb2b77b9f00c7efd0fe31abb0a2de2415f3cb"
 dependencies = [
- "bindgen",
  "libc",
 ]
 

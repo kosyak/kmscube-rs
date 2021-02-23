@@ -24,4 +24,8 @@ fn main() {
     ])
         .write_bindings(StaticGenerator, &mut gles2_file)
         .unwrap();
+ 
+    // Monkey-patching linking on Le Potato
+    println!("cargo:rustc-link-search=native=/usr/local/lib/aarch64-linux-gnu/mali");
 }
+
